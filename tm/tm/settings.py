@@ -14,12 +14,19 @@ BOT_NAME = 'tm'
 SPIDER_MODULES = ['tm.spiders']
 NEWSPIDER_MODULE = 'tm.spiders'
 
+#
+# # Crawl responsibly by identifying yourself (and your website) on the user-agent
+# USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
+#
+# # Obey robots.txt rules
+# ROBOTSTXT_OBEY = False
+# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# # 替换scrapy中调度器组件
+# SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# # 设置当爬虫运行中断时，任务队列是否保持，设置之后，爬虫退出，远程redis将会继续保持任务队列以及去重集合
+# SCHEDULER_PERSIST = True
+# REDIS_URL = "redis://127.0.0.1:6379"
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
-
-# Obey robots.txt rules
-ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -52,6 +59,8 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
+
+# 启用下载中间件，返回渲染后页面源码，再进行xpath
 DOWNLOADER_MIDDLEWARES = {
    'tm.middlewares.opennew': 543,
 }
@@ -88,3 +97,21 @@ DOWNLOADER_MIDDLEWARES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+#--------------------------------------------------------------------------------------------------------
+# 分布式：
+# redis设置：
+# from scrapy_redis.spiders import RedisSpider
+# 改写继承类    RedisSpider
+# 爬虫文件中改写初始地址为    redis_key='redis中列表名字'，不注释allowd 只注释start_url
+#
+
+# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# SCHEDULER = "scrapy_redis.scheduler.Scheduler"    默认使用优先级队列（默认），其他：PriorityQueue（有序集合），FifoQueue（列表）、LifoQueue（列表）
+# SCHEDULER_PERSIST = True   爬完之后不清空redis
+# REDIS_URL = "redis://127.0.0.1:6379" # 请正确配置REDIS_URL
+# 这个需要注意，是将spider返回的数据下载到redis...一般不要开启，浪费资源
+# ITEM_PIPELINES = {'scrapy_redis.pipelines.RedisPipeline': 400,}
+
+# cd到spiders文件夹下，scrapy.runspider 爬虫文件名字.py  例如 tmm.py
