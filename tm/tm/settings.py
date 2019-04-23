@@ -114,4 +114,4 @@ DOWNLOADER_MIDDLEWARES = {
 # 这个需要注意，是将spider返回的数据下载到redis...一般不要开启，浪费资源
 # ITEM_PIPELINES = {'scrapy_redis.pipelines.RedisPipeline': 400,}
 
-# cd到spiders文件夹下，scrapy.runspider 爬虫文件名字.py  例如 tmm.py
+# cd到spiders文件夹下，scrapy runspider 爬虫文件名字.py  例如 tmm.py
